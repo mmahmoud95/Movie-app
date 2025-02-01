@@ -15,6 +15,7 @@ movie-app/
 ### Backend:
 - Navigate to backend: `cd movie-app-backend`
 - - install with `npm install -f`
+- .env.example add data like in .env.example with your environment 
 - Runs with: `npm run start:dev`
 - URL: [http://localhost:3000/](http://localhost:3000/)
 - Uses: PostgreSQL, Prisma
