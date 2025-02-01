@@ -9,6 +9,7 @@ movie-app/
 ### Frontend:
 - Navigate to frontend: `cd movie-app-frontend`
 - install with `npm install -f`
+- - Update `.env` file with you VITE_API_BASE for Backend like in .env.example
 - Runs with: `npm run dev`
 - URL: [http://localhost:5173/](http://localhost:5173/)
 
