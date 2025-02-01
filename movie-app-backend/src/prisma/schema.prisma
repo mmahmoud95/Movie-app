@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // استخدام متغير البيئة للاتصال بقاعدة البيانات
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Movie {
+  id     Int    @id @default(autoincrement())
+  imdbID String @unique
+  Title  String
+  Year   String
+  Poster String
+  favorites Favorite[] 
+}
+
+model Favorite {
+  id      Int    @id @default(autoincrement())
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [imdbID])
+
+  @@unique([movieId])
+}
