@@ -1,0 +1,10 @@
+# Backend .env
+movie-app-backend/.env
+
+# Frontend .env
+movie-app-frontend/.env
+
+# Other common directories to ignore
+node_modules/
+dist/
+build/
