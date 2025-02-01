@@ -7,11 +7,11 @@ import { FavoriteService } from './favorites-movies/favorites.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 
-// import { FavoritesController } from './favorites-movies/favorites.controller';
+import { FavoritesController } from './favorites-movies/favorites.controller';
 
 @Module({
   imports: [ConfigModule.forRoot()],
-  controllers: [AppController, MoviesController],
+  controllers: [AppController, MoviesController, FavoritesController],
   providers: [AppService, MoviesService, FavoriteService, PrismaService],
 })
 export class AppModule {}

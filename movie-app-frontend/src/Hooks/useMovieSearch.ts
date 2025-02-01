@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Movie } from '../utils/types';
-import { API_BASE } from '../utils/Constants';
+import { axiosInstance } from '../utils/instanceAxios';
 
 interface MovieSearch {
     Search: Movie[];
@@ -9,7 +8,7 @@ interface MovieSearch {
 
 const useMovieSearch = (searchValue: string | null) => {
     const [movies, setMovies] = useState<MovieSearch>({ Search: [] });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -18,8 +17,8 @@ const useMovieSearch = (searchValue: string | null) => {
         const fetchMovies = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(
-                    `${API_BASE}/movies/search?title=${searchValue}`
+                const { data } = await axiosInstance.get(
+                    `/movies/search?title=${searchValue}`
                 );
                 setMovies(data);
             } catch (err) {

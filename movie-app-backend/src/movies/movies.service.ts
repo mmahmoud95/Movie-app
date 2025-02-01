@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MoviesService {
-  private readonly OMDB_API_URL = 'http://www.omdbapi.com/';
+  private readonly OMDB_API_URL =
+    this.configService.get<string>('OMDB_API_URL');
   constructor(private configService: ConfigService) {}
 
   async searchMovies(title: string) {

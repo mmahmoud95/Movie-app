@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/store'; // تأكد من استيراد RootState
+import { RootState } from '../store/store';
 import MovieCard from '../Components/MovieCard';
 import { Movie } from '../utils/types';
 
@@ -13,7 +13,7 @@ const Favorites = () => {
             {favorites.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {favorites.map((movie: Movie) => (
-                        <MovieCard movie={movie} />
+                        <MovieCard movie={movie} key={movie.imdbID} />
                     ))}
                 </div>
             ) : (

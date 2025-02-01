@@ -14,9 +14,7 @@ movie-app/
 
 ### Backend:
 - Navigate to backend: `cd movie-app-backend`
-- - install with `npm install -f`
-- .env.example add data like in .env.example with your environment 
-- Runs with: `npm run start:dev`
+- - install with `npm install -f- Runs with: `npm run start:dev`
 - URL: [http://localhost:3000/](http://localhost:3000/)
 - Uses: PostgreSQL, Prisma
 
@@ -26,11 +24,6 @@ movie-app/
    - Start PostgreSQL service
    - Create a database: `CREATE DATABASE movie_app;`
 
-2. **Set up Prisma:**
+2. **Set up .env**
    - Navigate to backend: `cd movie-app-backend`
-   - Install Prisma: `npm install prisma --save-dev`
-   - Initialize Prisma: `npx prisma init`
-   - Update `.env` file with your database URL: `DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/movie_app"`
-   - Run migrations: `npx prisma migrate dev --name init`
-   - Generate Prisma client: `npx prisma generate`
-
+   - Update `.env` file with your database URL: `DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/movie_app"` , OMDB_API_KEY and OMDB_API_URL as in .env.example

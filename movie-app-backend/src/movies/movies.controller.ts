@@ -15,6 +15,7 @@ export class MoviesController {
       const movies = await this.moviesService.searchMovies(title);
       return movies;
     } catch (error) {
+      console.log(error);
       return { error: 'Failed to fetch movies. Please try again later.' };
     }
   }

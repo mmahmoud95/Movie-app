@@ -8,18 +8,16 @@ generator client {
 }
 
 model Movie {
-  id     Int    @id @default(autoincrement())
-  imdbID String @unique
-  Title  String
-  Year   String
-  Poster String
-  favorites Favorite[] 
+  id        Int        @id @default(autoincrement())
+  imdbID    String     @unique
+  Title     String
+  Year      String
+  Poster    String
+  favorites Favorite[]
 }
 
 model Favorite {
-  id      Int    @id @default(autoincrement())
-  movieId String
-  movie   Movie  @relation(fields: [movieId], references: [imdbID])
-
-  @@unique([movieId])
+  id      Int   @id @default(autoincrement())
+  movieId Int
+  movie   Movie @relation(fields: [movieId], references: [id])
 }

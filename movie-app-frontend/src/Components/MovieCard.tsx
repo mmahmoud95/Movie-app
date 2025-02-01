@@ -1,35 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Movie } from '../utils/types';
-import { RootState } from '../store/store';
-import { addFavorite, removeFavorite } from '../store/slices/favoriteSlice';
-import axios from 'axios';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { API_BASE } from '../utils/Constants';
+import useFavorite from '../Hooks/useMovieFavorites';
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
-    const dispatch = useDispatch();
-    const favorites = useSelector(
-        (state: RootState) => state.favorites.favorites
-    );
-    const isFavorite = favorites.some(
-        (fav: Movie) => fav.imdbID === movie.imdbID
-    );
-
-    const handleFavoriteToggle = async () => {
-        if (isFavorite) {
-            dispatch(removeFavorite(movie.imdbID));
-            await axios.delete(`${API_BASE}/favorites/${movie.imdbID}`);
-        } else {
-            dispatch(addFavorite(movie));
-            await axios.post(`${API_BASE}/favorites`, movie);
-        }
-    };
+    const { isFavorite, toggleFavorite, loading } = useFavorite(movie);
 
     return (
-        <div
-            key={movie.imdbID}
-            className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
-        >
+        <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105">
             <img
                 src={
                     movie.Poster !== 'N/A' ? movie.Poster : 'default-poster.jpg'
@@ -45,7 +22,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
                         </h3>
                         <p className="text-gray-500">{movie.Year}</p>
                     </div>
-                    <button onClick={handleFavoriteToggle}>
+                    <button onClick={toggleFavorite} disabled={loading}>
                         {isFavorite ? (
                             <FaHeart className="text-red-500" />
                         ) : (

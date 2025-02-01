@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './Components/Header'; 
+import { Provider, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import store from './store/store';
+import { fetchFavorites } from './store/slices/favoriteSlice';
+import Header from './Components/Header';
 import MovieList from './Components/MovieList';
 import Home from './pages/Home';
-import { Provider } from 'react-redux';
-import store from './store/store';
 import Favorites from './pages/Favorites';
 
 const App = () => {
     return (
         <Provider store={store}>
             <Router>
+                <LoadFavorites />
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -22,3 +25,10 @@ const App = () => {
 };
 
 export default App;
+const LoadFavorites = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchFavorites());
+    }, []);
+    return null;
+};

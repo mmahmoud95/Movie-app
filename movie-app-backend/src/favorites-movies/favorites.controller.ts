@@ -1,28 +1,37 @@
-// import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
-// import { FavoriteService } from './favorites.service';
+import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import { FavoriteService } from './favorites.service';
 
-// @Controller('favorites')
-// export class FavoritesController {
-//   constructor(private readonly favoriteService: FavoriteService) {}
+@Controller('favorites')
+export class FavoritesController {
+  constructor(private readonly favoriteService: FavoriteService) {}
 
-//   @Post('add')
-//   async addFavorite(
-//     @Body('userId') userId: string,
-//     @Body('movieId') movieId: number,
-//   ) {
-//     return this.favoriteService.addFavorite(userId, movieId);
-//   }
+  @Post('')
+  async addFavorite(
+    @Body()
+    body: {
+      movieId: string;
+      title: string;
+      year: string;
+      poster: string;
+    },
+  ) {
+    const { movieId, title, year, poster } = body;
 
-//   @Get(':userId')
-//   async getFavorites(@Param('userId') userId: string) {
-//     return this.favoriteService.getFavorites(userId);
-//   }
+    return this.favoriteService.addMovieToFavorite(
+      movieId,
+      title,
+      year,
+      poster,
+    );
+  }
 
-//   @Delete('remove/:userId/:movieId')
-//   async removeFavorite(
-//     @Param('userId') userId: string,
-//     @Param('movieId') movieId: number,
-//   ) {
-//     return this.favoriteService.removeFavorite(userId, movieId);
-//   }
-// }
+  @Get()
+  async getFavorites() {
+    return this.favoriteService.getMoviesFavorites();
+  }
+
+  @Delete(':movieId')
+  async removeFavorite(@Param('movieId') movieId: string) {
+    return this.favoriteService.removeMovieFromFavorites(movieId);
+  }
+}

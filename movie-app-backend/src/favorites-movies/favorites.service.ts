@@ -5,59 +5,56 @@ import { Movie } from '@prisma/client';
 @Injectable()
 export class FavoriteService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async addFavorite(movieId: string): Promise<Movie> {
+  async addMovieToFavorite(
+    movieId: string,
+    title: string,
+    year: string,
+    poster: string,
+  ): Promise<Movie> {
     const existingFavorite = await this.prisma.favorite.findUnique({
       where: { movieId: movieId },
     });
-
     if (existingFavorite) {
-      throw new Error('الفيلم موجود بالفعل في المفضلة');
+      throw new Error('movie already exists in favorites');
     }
-
-    const movie = await this.prisma.movie.upsert({
+    let movie = await this.prisma.movie.findUnique({
       where: { imdbID: movieId },
-      update: {},
-      create: {
-        imdbID: movieId,
-        Title: 'عنوان الفيلم',
-        Year: 'سنة الفيلم',
-        Poster: 'رابط الصورة',
-      },
     });
+    if (!movie) {
+      movie = await this.prisma.movie.create({
+        data: {
+          imdbID: movieId,
+          Title: title,
+          Year: year,
+          Poster: poster,
+        },
+      });
+    }
 
     await this.prisma.favorite.create({
       data: {
-        movieId: movie.id.toString(),
+        movie: {
+          connect: { imdbID: movie.imdbID },
+        },
       },
     });
 
     return movie;
   }
 
-  async getFavorites(): Promise<Movie[]> {
+  async getMoviesFavorites(): Promise<Movie[]> {
     const favorites = await this.prisma.favorite.findMany({
       include: {
-        movie: {
-          select: {
-            id: true,
-            imdbID: true,
-            Title: true,
-            Year: true,
-            Poster: true,
-          },
-        },
+        movie: true,
       },
     });
 
-    // استخراج الأفلام فقط من المفضلة
     return favorites.map((favorite) => favorite.movie);
   }
 
-  // إزالة فيلم من المفضلة
-  async removeFavorite(movieId: string): Promise<void> {
+  async removeMovieFromFavorites(movieId: string): Promise<void> {
     await this.prisma.favorite.delete({
-      where: { movieId: movieId }, // هنا نبحث عن المفضل باستخدام movieId
+      where: { movieId: movieId },
     });
   }
 }
